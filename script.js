@@ -11,9 +11,20 @@ const gameBoard = (() => {
 
     const getBoard = () => board;
 
-    const printBoard = () => {};
+    const printBoard = () => {
+        const boardState = board.map((row) =>
+            row.map((column) => column.getValue())
+        );
+        console.log(boardState);
+    };
 
-    return { getBoard };
+    const markBoard = (row, column, player) => {
+        const spot = board[row][column];
+        if (spot.getValue() > 0) return;
+        spot.addMark(player);
+    };
+
+    return { getBoard, printBoard, markBoard };
 })();
 
 function Cell() {
@@ -26,6 +37,6 @@ function Cell() {
 
     return {
         addMark,
-        getValue
-    }
-};
+        getValue,
+    };
+}
