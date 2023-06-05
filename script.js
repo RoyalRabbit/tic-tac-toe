@@ -2,9 +2,9 @@ const gameBoard = (() => {
     const rows = 3;
     const columns = 3;
     const board = [];
-    for (let i = 0; i < rows; i++) {
+    for (let i = 0; i < rows; i += 1) {
         board[i] = [];
-        for (let j = 0; j < columns; j++) {
+        for (let j = 0; j < columns; j += 1) {
             board[i].push(Cell());
         }
     }
@@ -40,3 +40,25 @@ function Cell() {
         getValue,
     };
 }
+
+const gameController = ((
+    playerOneName = 'Player One',
+    playerTwoName = 'Player Two'
+) => {
+    const players = [
+        { name: playerOneName, mark: 1 },
+        { name: playerTwoName, mark: 2 },
+    ];
+
+    // Switch Player Logic
+    let activePlayer = players[0];
+
+    const switchActivePlayer = () => {
+        activePlayer = activePlayer === players[0] ? players[1] : players[0];
+    };
+
+    const getPlayer = () => activePlayer;
+    // Play Round logic
+
+    return { getPlayer, switchActivePlayer };
+})();
