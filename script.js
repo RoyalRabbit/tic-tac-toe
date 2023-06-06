@@ -72,7 +72,7 @@ const screenController = (() => {
     const gameBoardDiv = document.querySelector('.gameBoard');
 
     // Function for adding elements
-    const addGameElement = (target, element, value, coord) => {
+    const addElement = (target, element, value, coord) => {
         // Create new element
         const newElement = document.createElement(element);
 
@@ -81,14 +81,17 @@ const screenController = (() => {
 
         // Add text node to element
         newElement.appendChild(newContent);
+        
+        // If coord parameter is passed, add cell class and row/column datasets
+        if (coord) {
+            // Add classlist
+            newElement.classList.add('cell');
 
-        // Add classlist
-        newElement.classList.add('cell')
-
-        // Add coord values (row and column)
-        const [row, column] = coord;
-        newElement.dataset.row = row;
-        newElement.dataset.column = column;
+            // Add coord values (row and column)
+            const [row, column] = coord;
+            newElement.dataset.row = row;
+            newElement.dataset.column = column;
+        }
 
         // Add new element to target
         target.appendChild(newElement);
@@ -118,16 +121,16 @@ const screenController = (() => {
                 const coord = [i, j];
                 switch (value) {
                     case 0:
-                        addGameElement(gameBoardDiv, 'button', 'Place', coord);
+                        addElement(gameBoardDiv, 'button', 'Place', coord);
                         break;
                     case 1:
-                        addGameElement(gameBoardDiv, 'button', 'X', coord);
+                        addElement(gameBoardDiv, 'button', 'X', coord);
                         break;
                     case 2:
-                        addGameElement(gameBoardDiv, 'button', 'O', coord);
+                        addElement(gameBoardDiv, 'button', 'O', coord);
                         break;
                     default:
-                        addGameElement(gameBoardDiv, 'button', '', coord);
+                        addElement(gameBoardDiv, 'button', '', coord);
                         console.log(
                             `Player Value Error @ Row: ${coord[0]} Column: ${coord[1]}`
                         );
