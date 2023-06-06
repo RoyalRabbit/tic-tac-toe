@@ -72,7 +72,7 @@ const screenController = (() => {
     const gameBoardDiv = document.querySelector('.gameBoard');
 
     // Function for adding elements
-    const addElement = (target, element, value) => {
+    const addGameElement = (target, element, value, coord) => {
         // Create new element
         const newElement = document.createElement(element);
 
@@ -82,8 +82,21 @@ const screenController = (() => {
         // Add text node to element
         newElement.appendChild(newContent);
 
+        // Add classlist
+        newElement.classList.add('cell')
+
+        // Add coord values (row and column)
+        const [row, column] = coord;
+        newElement.dataset.row = row;
+        newElement.dataset.column = column;
+
         // Add new element to target
         target.appendChild(newElement);
+    };
+
+    const addCoord = (i, j) => {
+        this.dataset.row = i;
+        this.dataset.column = j;
     };
 
     // Show initial state
@@ -102,8 +115,23 @@ const screenController = (() => {
         for (let i = 0; i < board.length; i += 1) {
             for (let j = 0; j < board[i].length; j += 1) {
                 const value = board[i][j].getValue();
-                addElement(gameBoardDiv, 'div', value);
-                console.log(value);
+                const coord = [i, j];
+                switch (value) {
+                    case 0:
+                        addGameElement(gameBoardDiv, 'button', 'Place', coord);
+                        break;
+                    case 1:
+                        addGameElement(gameBoardDiv, 'button', 'X', coord);
+                        break;
+                    case 2:
+                        addGameElement(gameBoardDiv, 'button', 'O', coord);
+                        break;
+                    default:
+                        addGameElement(gameBoardDiv, 'button', '', coord);
+                        console.log(
+                            `Player Value Error @ Row: ${coord[0]} Column: ${coord[1]}`
+                        );
+                }
             }
         }
     };
