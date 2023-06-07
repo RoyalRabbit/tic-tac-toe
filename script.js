@@ -42,7 +42,7 @@ function Cell() {
     return {
         addMark,
         getValue,
-        resetValue
+        resetValue,
     };
 }
 
@@ -71,7 +71,9 @@ const gameController = ((
     };
 
     const resetBoard = () => {
-        board.getBoard().forEach(row=>row.forEach(obj=>obj.resetValue()));
+        board
+            .getBoard()
+            .forEach((row) => row.forEach((obj) => obj.resetValue()));
         activePlayer = players[0];
     };
 
@@ -81,9 +83,10 @@ const gameController = ((
 const screenController = (() => {
     const game = gameController;
 
-    // Select div for player and gameboard
+    // Select div for player and gameboard and reset
     const playerTurnDiv = document.querySelector('.playerTurn');
     const gameBoardDiv = document.querySelector('.gameBoard');
+    const buttonDiv = document.querySelector('.button-container');
 
     // Function for adding elements
     const addElement = (target, element, value, coord) => {
@@ -153,10 +156,17 @@ const screenController = (() => {
         }
     };
 
+    function clickHandlerReset(event) {
+        const selectedTarget = event.target;
+        if (selectedTarget.classList.contains('reset-btn')) {
+            game.resetBoard();
+            updateScreen();
+        }
+    }
+
     // Get user input for desired mark location
     function clickHandlerBoard(event) {
         const selectedTarget = event.target;
-        console.log(selectedTarget);
         // Checks that clicked item contains 'cell' in class list
         if (
             selectedTarget.classList.contains('cell') &&
@@ -175,9 +185,10 @@ const screenController = (() => {
     }
 
     gameBoardDiv.addEventListener('click', clickHandlerBoard);
+    buttonDiv.addEventListener('click', clickHandlerReset);
 
     // Initial Render
     updateScreen();
 
-    return {updateScreen};
+    return { updateScreen };
 })();
