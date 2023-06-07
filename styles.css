@@ -1,15 +1,46 @@
+:root {
+    font-size: 62.5%;
+}
+
+* {
+    margin: 0;
+    border: 0;
+    padding: 0;
+}
+
 body {
     box-sizing: border-box;
     width: 100vw;
     height: 100vh;
 }
 
+.game-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2rem;
+}
 
 .playerTurn {
-    color: red;
+    color: rgb(255, 0, 0);
+    font-size: 4rem;
+    margin-top: 2rem;
 }
 .gameBoard {
     display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 1fr 1fr 1fr;
+    height: 500px;
+    width: 500px;
+    border: 5px solid red;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    gap: 5px;
+}
+
+.cell {
+    font-size: 4rem;
+}
+
+.reset-btn {
+    font-size: 2.5rem;
+    color: blue;
 }

@@ -35,9 +35,14 @@ function Cell() {
 
     const getValue = () => value;
 
+    const resetValue = () => {
+        value = 0;
+    };
+
     return {
         addMark,
         getValue,
+        resetValue
     };
 }
 
@@ -58,10 +63,19 @@ const gameController = ((
     };
 
     const getPlayer = () => activePlayer;
-    // Play Round logic
 
-    return { getPlayer, switchActivePlayer, ...board };
-    // return { getPlayer, switchActivePlayer, getBoard: board.getBoard, printBoard: board.printBoard};
+    // Play Round logic
+    const playRound = (row, column) => {
+        const playerMark = getPlayer().mark;
+        board.markBoard(row, column, playerMark);
+    };
+
+    const resetBoard = () => {
+        board.getBoard().forEach(row=>row.forEach(obj=>obj.resetValue()));
+        activePlayer = players[0];
+    };
+
+    return { getPlayer, switchActivePlayer, playRound, resetBoard, ...board };
 })();
 
 const screenController = (() => {
@@ -81,7 +95,7 @@ const screenController = (() => {
 
         // Add text node to element
         newElement.appendChild(newContent);
-        
+
         // If coord parameter is passed, add cell class and row/column datasets
         if (coord) {
             // Add classlist
@@ -121,7 +135,7 @@ const screenController = (() => {
                 const coord = [i, j];
                 switch (value) {
                     case 0:
-                        addElement(gameBoardDiv, 'button', 'Place', coord);
+                        addElement(gameBoardDiv, 'button', '', coord);
                         break;
                     case 1:
                         addElement(gameBoardDiv, 'button', 'X', coord);
@@ -138,5 +152,32 @@ const screenController = (() => {
             }
         }
     };
-    return { updateScreen };
+
+    // Get user input for desired mark location
+    function clickHandlerBoard(event) {
+        const selectedTarget = event.target;
+        console.log(selectedTarget);
+        // Checks that clicked item contains 'cell' in class list
+        if (
+            selectedTarget.classList.contains('cell') &&
+            !selectedTarget.textContent
+        ) {
+            // Get the row and columun data
+            const { row, column } = selectedTarget.dataset;
+
+            // Mark spot using coordinate and active player
+            game.playRound(row, column);
+            game.switchActivePlayer();
+
+            // Update screen after game logic
+            updateScreen();
+        }
+    }
+
+    gameBoardDiv.addEventListener('click', clickHandlerBoard);
+
+    // Initial Render
+    updateScreen();
+
+    return {updateScreen};
 })();
