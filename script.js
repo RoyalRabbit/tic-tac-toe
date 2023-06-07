@@ -110,6 +110,18 @@ const gameController = (
         }
 
         // Check diagonals to be all equal to playerValue
+        const diagTL = [];
+        const diagTR = [];
+        for (let i = 0; i < rows; i += 1) {
+            diagTL.push(checkBoard[i][i]);
+            diagTR.push(checkBoard[i][2 - i]);
+        }
+        if (allEqual(diagTL) || allEqual(diagTR)) {
+            win.check = true;
+            win.condition = allEqual(diagTL) ? 'diagTL' : 'diagTR'; // this line sets the win.winArray property
+            win.winArray = allEqual(diagTL) ? 0 : 1; // this line sets the win.winArray property
+        }
+        console.log(diagTL, diagTR);
 
         console.log(win);
         return win;
