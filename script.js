@@ -25,7 +25,7 @@ const gameBoard = (() => {
     };
 
     return { getBoard, printBoard, markBoard };
-})();
+});
 
 function Cell() {
     let value = 0;
@@ -47,14 +47,14 @@ function Cell() {
 }
 
 const gameController = ((
-    playerOneName = 'Player One',
-    playerTwoName = 'Player Two'
+    playerOneName = 'Mark (One)',
+    playerTwoName = 'Ben (Two)'
 ) => {
     const players = [
         { name: playerOneName, mark: 1 },
         { name: playerTwoName, mark: 2 },
     ];
-    const board = gameBoard;
+    const board = gameBoard();
     // Switch Player Logic
     let activePlayer = players[0];
 
@@ -78,10 +78,10 @@ const gameController = ((
     };
 
     return { getPlayer, switchActivePlayer, playRound, resetBoard, ...board };
-})();
+});
 
 const screenController = (() => {
-    const game = gameController;
+    const game = gameController();
 
     // Select div for player and gameboard and reset
     const playerTurnDiv = document.querySelector('.playerTurn');
