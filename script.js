@@ -171,11 +171,6 @@ const screenController = (() => {
         target.appendChild(newElement);
     };
 
-    const addCoord = (i, j) => {
-        this.dataset.row = i;
-        this.dataset.column = j;
-    };
-
     // Show initial state
     const updateScreen = () => {
         // Clear game board content
