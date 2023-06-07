@@ -81,7 +81,7 @@ const gameController = ((
 })();
 
 const screenController = (() => {
-    const game = gameController;
+    const game = gameController; // Testing merge
 
     // Select div for player and gameboard and reset
     const playerTurnDiv = document.querySelector('.playerTurn');
