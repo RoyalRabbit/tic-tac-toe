@@ -37,10 +37,11 @@ body {
 }
 
 .cell {
-    font-size: 4rem;
+    font-size: 6rem;
 }
 
-.reset-btn {
+.reset-btn, .checkwin-btn{
     font-size: 2.5rem;
     color: blue;
+
 }

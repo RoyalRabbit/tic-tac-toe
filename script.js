@@ -1,4 +1,4 @@
-const gameBoard = (() => {
+const gameBoard = () => {
     const rows = 3;
     const columns = 3;
     const board = [];
@@ -12,10 +12,14 @@ const gameBoard = (() => {
     const getBoard = () => board;
 
     const printBoard = () => {
+        console.log(getBoardState());
+    };
+
+    const getBoardState = () => {
         const boardState = board.map((row) =>
             row.map((column) => column.getValue())
         );
-        console.log(boardState);
+        return boardState;
     };
 
     const markBoard = (row, column, player) => {
@@ -24,8 +28,8 @@ const gameBoard = (() => {
         spot.addMark(player);
     };
 
-    return { getBoard, printBoard, markBoard };
-});
+    return { getBoard, printBoard, markBoard, getBoardState };
+};
 
 function Cell() {
     let value = 0;
@@ -46,7 +50,7 @@ function Cell() {
     };
 }
 
-const gameController = ((
+const gameController = (
     playerOneName = 'Mark (One)',
     playerTwoName = 'Ben (Two)'
 ) => {
@@ -77,15 +81,52 @@ const gameController = ((
         activePlayer = players[0];
     };
 
-    return { getPlayer, switchActivePlayer, playRound, resetBoard, ...board };
-});
+    // Function to check if a win condition is set
+    const checkWin = (playerValue = 1) => {
+        const checkBoard = board.getBoardState();
+        const allEqual = (arr) => arr.every((v) => v === playerValue);
+        const win = { check: false, condition: '', winArray: [] };
+        const rows = 3;
+        const columns = 3;
+
+        // Check if a row is all equal to the playerValue
+        for (let i = 0; i < rows; i += 1) {
+            const row = checkBoard[i];
+            if (allEqual(row)) {
+                win.check = true;
+                win.condition = 'row';
+                win.winArray = i;
+            }
+        }
+
+        // Check for columns to be all equal to playerValue
+        for (let i = 0; i < columns; i += 1) {
+            const column = checkBoard.map((arr) => arr[i]);
+            if (allEqual(column)) {
+                win.check = true;
+                win.condition = 'column';
+                win.winArray = i;
+            }
+        }
+
+        // Check diagonals to be all equal to playerValue
+
+        console.log(win);
+        return win;
+    };
+
+    return {
+        getPlayer,
+        switchActivePlayer,
+        playRound,
+        resetBoard,
+        checkWin,
+        ...board,
+    };
+};
 
 const screenController = (() => {
-<<<<<<< HEAD
-    const game = gameController; // Testing merge
-=======
     const game = gameController();
->>>>>>> testFunction
 
     // Select div for player and gameboard and reset
     const playerTurnDiv = document.querySelector('.playerTurn');
@@ -160,11 +201,15 @@ const screenController = (() => {
         }
     };
 
-    function clickHandlerReset(event) {
+    function clickHandlerButton(event) {
         const selectedTarget = event.target;
         if (selectedTarget.classList.contains('reset-btn')) {
             game.resetBoard();
             updateScreen();
+        }
+        if (selectedTarget.classList.contains('checkwin-btn')) {
+            // game.checkWin();
+            game.checkWin();
         }
     }
 
@@ -189,7 +234,7 @@ const screenController = (() => {
     }
 
     gameBoardDiv.addEventListener('click', clickHandlerBoard);
-    buttonDiv.addEventListener('click', clickHandlerReset);
+    buttonDiv.addEventListener('click', clickHandlerButton);
 
     // Initial Render
     updateScreen();
