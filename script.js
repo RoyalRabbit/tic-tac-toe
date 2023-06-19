@@ -51,8 +51,8 @@ function Cell() {
 }
 
 const gameController = (
-    playerOneName = 'Mark (One)',
-    playerTwoName = 'Ben (Two)'
+    playerOneName = 'Player One',
+    playerTwoName = 'Player Two'
 ) => {
     const players = [
         { name: playerOneName, mark: 1 },
@@ -82,10 +82,11 @@ const gameController = (
     };
 
     // Function to check if a win condition is set
-    const checkWin = (playerValue = 1) => {
+    const checkWin = (playerValue) => {
+
         const checkBoard = board.getBoardState();
         const allEqual = (arr) => arr.every((v) => v === playerValue);
-        const win = { check: false, condition: '', winArray: [] };
+        const win = { check: false, condition: '', winArray: []};
         const rows = 3;
         const columns = 3;
 
@@ -121,9 +122,7 @@ const gameController = (
             win.condition = allEqual(diagTL) ? 'diagTL' : 'diagTR'; // this line sets the win.winArray property
             win.winArray = allEqual(diagTL) ? 0 : 1; // this line sets the win.winArray property
         }
-        console.log(diagTL, diagTR);
 
-        console.log(win);
         return win;
     };
 
@@ -216,24 +215,37 @@ const screenController = (() => {
         }
         if (selectedTarget.classList.contains('checkwin-btn')) {
             // game.checkWin();
-            game.checkWin();
+
+            game.checkWin(game.getPlayer().mark);
         }
     }
 
     // Get user input for desired mark location
     function clickHandlerBoard(event) {
         const selectedTarget = event.target;
+        let winCheck = (game.checkWin(1).check || game.checkWin(2).check);
+
         // Checks that clicked item contains 'cell' in class list
         if (
             selectedTarget.classList.contains('cell') &&
-            !selectedTarget.textContent
+            !selectedTarget.textContent && !winCheck
         ) {
             // Get the row and columun data
             const { row, column } = selectedTarget.dataset;
 
             // Mark spot using coordinate and active player
             game.playRound(row, column);
-            game.switchActivePlayer();
+
+            // Check if either player has won
+            winCheck = (game.checkWin(1).check || game.checkWin(2).check)
+            if (winCheck) {
+                console.log('Someone Won')
+            }
+            
+            // If player did not win, switch active player
+            if (!winCheck) {
+                game.switchActivePlayer();
+            }
 
             // Update screen after game logic
             updateScreen();
