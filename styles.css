@@ -69,7 +69,7 @@ body {
 
 }
 
-.diag_2::after {
+.diag_0::after {
     position: absolute;
     left: 49%;
     top: -21%;
