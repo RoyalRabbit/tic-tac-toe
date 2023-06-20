@@ -82,7 +82,7 @@ const gameController = (
     };
 
     // Function to check if a win condition is set
-    const checkWin = (playerValue = activePlayer.mark) => {
+    const checkWin = (playerValue = getPlayer().mark) => {
         const checkBoard = board.getBoardState();
         const allEqual = (arr) => arr.every((v) => v === playerValue);
         const win = { check: false, condition: '', winArray: [] };
@@ -206,6 +206,34 @@ const screenController = (() => {
         }
     };
 
+    function addLine(winObject) {
+        const { condition, winArray } = winObject;
+        const cells = document.querySelectorAll('.cell');
+        console.log(cells)
+        switch (condition) {
+            case 'row':
+                // Get the HTML elements of the desired row and add a class list of 'row' to them
+                console.log('A row won')
+                break;
+
+            case 'column':
+                console.log('A column won')
+                break;
+
+            case 'diagTL':
+                console.log('A diagTL won')
+                break;
+
+            case 'diagTR':
+                console.log('A diagTR won')
+                break;
+
+            default:
+                console.log('Error: No one won... Reset Game');
+        }
+    }
+
+    // Reset Button Handler
     function clickHandlerButton(event) {
         const selectedTarget = event.target;
         if (selectedTarget.classList.contains('reset-btn')) {
@@ -240,17 +268,14 @@ const screenController = (() => {
             const playerWinCheck = game.checkWin();
 
             if (playerWinCheck.check) {
-                
                 // Display winner
                 console.log(playerWinCheck);
                 const winner = game.getPlayer();
                 console.log(`${winner.name} (${winner.symbol}) Won!`);
-
-
+                addLine(playerWinCheck);
                 // Use a function to draw a line with the given playerWinCheck object
-                // drawLine(playerWinCheck) // function that will read the condition (row, column, diag) and the desired array 
-                                            // targets those buttons and draw a full size line through them 
-
+                // drawLine(playerWinCheck) // function that will read the condition (row, column, diag) and the desired array
+                // targets those buttons and draw a full size line through them
             }
 
             // If player did not win, switch active player
