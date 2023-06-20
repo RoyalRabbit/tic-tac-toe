@@ -55,8 +55,8 @@ const gameController = (
     playerTwoName = 'Player Two'
 ) => {
     const players = [
-        { name: playerOneName, mark: 1 },
-        { name: playerTwoName, mark: 2 },
+        { name: playerOneName, mark: 1, symbol: "X" },
+        { name: playerTwoName, mark: 2, symbol: 'O'},
     ];
     const board = gameBoard();
     // Switch Player Logic
@@ -83,10 +83,9 @@ const gameController = (
 
     // Function to check if a win condition is set
     const checkWin = (playerValue) => {
-
         const checkBoard = board.getBoardState();
         const allEqual = (arr) => arr.every((v) => v === playerValue);
-        const win = { check: false, condition: '', winArray: []};
+        const win = { check: false, condition: '', winArray: [] };
         const rows = 3;
         const columns = 3;
 
@@ -223,12 +222,13 @@ const screenController = (() => {
     // Get user input for desired mark location
     function clickHandlerBoard(event) {
         const selectedTarget = event.target;
-        let winCheck = (game.checkWin(1).check || game.checkWin(2).check);
+        let winCheck = game.checkWin(1).check || game.checkWin(2).check;
 
         // Checks that clicked item contains 'cell' in class list
         if (
             selectedTarget.classList.contains('cell') &&
-            !selectedTarget.textContent && !winCheck
+            !selectedTarget.textContent &&
+            !winCheck
         ) {
             // Get the row and columun data
             const { row, column } = selectedTarget.dataset;
@@ -237,13 +237,16 @@ const screenController = (() => {
             game.playRound(row, column);
 
             // Check if either player has won
-            winCheck = (game.checkWin(1).check || game.checkWin(2).check)
+            winCheck = game.checkWin(1).check || game.checkWin(2).check;
             if (winCheck) {
-                console.log('Someone Won')
+                const winner = game.getPlayer();
+                // Draw a line to signify
+                console.log(`${winner.name} (${winner.symbol}) Won!`);
+
             }
-            
+
             // If player did not win, switch active player
-            if (!winCheck) {
+            else if (!winCheck) {
                 game.switchActivePlayer();
             }
 
