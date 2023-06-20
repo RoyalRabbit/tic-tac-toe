@@ -38,6 +38,27 @@ body {
 
 .cell {
     font-size: 6rem;
+    position: relative;
+}
+
+.vert::after {
+    position: absolute;
+    left: 47.5%;
+    top: -2.5px;
+    height: calc(100% + 5px);
+    width: 5%;
+    background-color: black;
+    content: "";
+}
+
+.hori::before {
+    position: absolute;
+    top: 47.5%;
+    left: -2.5px;
+    width: calc(100% + 5px);
+    height: 5%;
+    background-color: black;
+    content: "";
 }
 
 .reset-btn, .checkwin-btn{
