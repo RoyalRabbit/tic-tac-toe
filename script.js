@@ -55,8 +55,8 @@ const gameController = (
     playerTwoName = 'Player Two'
 ) => {
     const players = [
-        { name: playerOneName, mark: 1, symbol: "X" },
-        { name: playerTwoName, mark: 2, symbol: 'O'},
+        { name: playerOneName, mark: 1, symbol: 'X' },
+        { name: playerTwoName, mark: 2, symbol: 'O' },
     ];
     const board = gameBoard();
     // Switch Player Logic
@@ -82,7 +82,7 @@ const gameController = (
     };
 
     // Function to check if a win condition is set
-    const checkWin = (playerValue) => {
+    const checkWin = (playerValue = activePlayer.mark) => {
         const checkBoard = board.getBoardState();
         const allEqual = (arr) => arr.every((v) => v === playerValue);
         const win = { check: false, condition: '', winArray: [] };
@@ -118,7 +118,7 @@ const gameController = (
         }
         if (allEqual(diagTL) || allEqual(diagTR)) {
             win.check = true;
-            win.condition = allEqual(diagTL) ? 'diagTL' : 'diagTR'; // this line sets the win.winArray property
+            win.condition = allEqual(diagTL) ? 'diagTL' : 'diagTR'; // this line sets the win.condition property
             win.winArray = allEqual(diagTL) ? 0 : 1; // this line sets the win.winArray property
         }
 
@@ -237,12 +237,19 @@ const screenController = (() => {
             game.playRound(row, column);
 
             // Check if active player has just won
-            const playerWin = game.checkWin(game.getPlayer().mark)
-            if (playerWin.check) {
+            const playerWinCheck = game.checkWin();
+
+            if (playerWinCheck.check) {
+                
+                // Display winner
+                console.log(playerWinCheck);
                 const winner = game.getPlayer();
-                // const winnerObj = game.checkWin
-                // Draw a line to signify
                 console.log(`${winner.name} (${winner.symbol}) Won!`);
+
+
+                // Use a function to draw a line with the given playerWinCheck object
+                // drawLine(playerWinCheck) // function that will read the condition (row, column, diag) and the desired array 
+                                            // targets those buttons and draw a full size line through them 
 
             }
 
