@@ -41,6 +41,10 @@ body {
     position: relative;
 }
 
+.vert::after, .diag_1::after, .diag_2::after, .hori::after {
+    z-index: 3;
+}
+
 .vert::after {
     position: absolute;
     left: 47.5%;
@@ -49,9 +53,35 @@ body {
     width: 5%;
     background-color: black;
     content: "";
+
 }
 
-.hori::before {
+.diag_1::after {
+    position: absolute;
+    left: 50%;
+    top: -30%;
+    height: 150%;
+    width: 5%;
+    background-color: black;
+    content: "";
+    transform-origin: -100% 50%;
+    transform: rotate(45deg);
+
+}
+
+.diag_2::after {
+    position: absolute;
+    left: 49%;
+    top: -21%;
+    height: 150%;
+    width: 5%;
+    background-color: black;
+    content: "";
+    transform-origin: -100% 50%;
+    transform: rotate(-45deg);
+}
+
+.hori::after {
     position: absolute;
     top: 47.5%;
     left: -2.5px;
