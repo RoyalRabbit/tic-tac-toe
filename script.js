@@ -222,7 +222,7 @@ const screenController = (() => {
     // Get user input for desired mark location
     function clickHandlerBoard(event) {
         const selectedTarget = event.target;
-        let winCheck = game.checkWin(1).check || game.checkWin(2).check;
+        const winCheck = game.checkWin(1).check || game.checkWin(2).check;
 
         // Checks that clicked item contains 'cell' in class list
         if (
@@ -236,10 +236,11 @@ const screenController = (() => {
             // Mark spot using coordinate and active player
             game.playRound(row, column);
 
-            // Check if either player has won
-            winCheck = game.checkWin(1).check || game.checkWin(2).check;
-            if (winCheck) {
+            // Check if active player has just won
+            const playerWin = game.checkWin(game.getPlayer().mark)
+            if (playerWin.check) {
                 const winner = game.getPlayer();
+                // const winnerObj = game.checkWin
                 // Draw a line to signify
                 console.log(`${winner.name} (${winner.symbol}) Won!`);
 
