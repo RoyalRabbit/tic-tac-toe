@@ -66,6 +66,22 @@ const gameController = (
         activePlayer = activePlayer === players[0] ? players[1] : players[0];
     };
 
+    const changeName = (player, playerName) => {
+        switch (player) {
+            case 1: {
+                players[0].name=playerName;
+                break;
+            }  
+            case 2: {
+                players[1].name=playerName;
+                break;
+            }
+            default : {
+                console.log('Error: changeName error')
+            }
+        }
+    };
+
     const getPlayer = () => activePlayer;
 
     // Play Round logic
@@ -208,45 +224,31 @@ const screenController = (() => {
 
     function addLine(winObject) {
         const { condition, winArray } = winObject;
-        
 
+        // Draw horizontal/vertical lines for row and column win conditions
         if (condition === 'row' || condition === 'column') {
-            console.log('wee')
-            const cells = document.querySelectorAll(`[data-${condition}="${winArray}"]`)
-            cells.forEach((e)=> e.classList.add(condition));
-            console.log(cells)
+            const cells = document.querySelectorAll(
+                `[data-${condition}="${winArray}"]`
+            );
+            cells.forEach((e) => e.classList.add(condition));
         }
-       
-        // switch (condition) {
-        //     case 'row': {
-        //         // Get the HTML elements of the desired row and add a class list of 'row' to them
-        //         console.log(`Row: ${winArray} won`);
 
-        //         const cells = document.querySelectorAll(
-        //             `[data-row="${winArray}"]`
-        //         );
-        //         cells.forEach((e) => e.classList.add('row'));
-        //         console.log(cells);
-        //         // cells.forEach(node=>if ())
-        //         break;
-        //     }
-        //     case 'column': {
-        //         console.log(`column: ${winArray} won`);
-
-        //         break;
-        //     }
-        //     case 'diagTL': {
-        //         console.log(`diagTL: ${winArray} won`);
-        //         break;
-        //     }
-        //     case 'diagTR': {
-        //         console.log(`diagTR: ${winArray} won`);
-        //         break;
-        //     }
-        //     default: {
-        //         console.log('Error: No one won... Reset Game');
-        //     }
-        // }
+        // Draw diagonal lines for diagonal win condition
+        else if (condition === 'diagTL') {
+            for (let i = 0; i <= 2; i += 1) {
+                const cell = document.querySelector(
+                    `[data-row="${i}"][data-column="${i}"]`
+                );
+                cell.classList.add('diagTL');
+            }
+        } else if (condition === 'diagTR') {
+            for (let i = 0; i <= 2; i += 1) {
+                const cell = document.querySelector(
+                    `[data-row="${i}"][data-column="${2 - i}"]`
+                );
+                cell.classList.add('diagTR');
+            }
+        }
     }
 
     // Reset Button Handler
@@ -256,10 +258,8 @@ const screenController = (() => {
             game.resetBoard();
             updateScreen();
         }
-        if (selectedTarget.classList.contains('checkwin-btn')) {
-            // game.checkWin();
-
-            game.checkWin(game.getPlayer().mark);
+        if (selectedTarget.classList.contains('changename-btn')) {
+            console.log('wee')
         }
     }
 

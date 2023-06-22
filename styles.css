@@ -41,7 +41,7 @@ body {
     position: relative;
 }
 
-.column::after, .diag_1::after, .diag_2::after, .row::after {
+.column::after, .diagTL::after, .diagTR::after, .row::after {
     z-index: 3;
 }
 
@@ -56,7 +56,7 @@ body {
 
 }
 
-.diag_1::after {
+.diagTR::after {
     position: absolute;
     left: 50%;
     top: -30%;
@@ -69,7 +69,7 @@ body {
 
 }
 
-.diag_0::after {
+.diagTL::after {
     position: absolute;
     left: 49%;
     top: -21%;
@@ -91,7 +91,7 @@ body {
     content: "";
 }
 
-.reset-btn, .checkwin-btn{
+.reset-btn, .changename-btn{
     font-size: 2.5rem;
     color: blue;
 
