@@ -208,28 +208,34 @@ const screenController = (() => {
 
     function addLine(winObject) {
         const { condition, winArray } = winObject;
-        const cells = document.querySelectorAll('.cell');
-        console.log(cells)
         switch (condition) {
-            case 'row':
+            case 'row': {
                 // Get the HTML elements of the desired row and add a class list of 'row' to them
-                console.log('A row won')
-                break;
+                console.log(`Row: ${winArray} won`);
 
-            case 'column':
-                console.log('A column won')
+                const cells = document.querySelectorAll(
+                    `[data-row="${winArray}"]`
+                );
+                cells.forEach((e) => e.classList.add('row'));
+                console.log(cells);
+                // cells.forEach(node=>if ())
                 break;
-
-            case 'diagTL':
-                console.log('A diagTL won')
+            }
+            case 'column': {
+                console.log(`column: ${winArray} won`);
                 break;
-
-            case 'diagTR':
-                console.log('A diagTR won')
+            }
+            case 'diagTL': {
+                console.log(`diagTL: ${winArray} won`);
                 break;
-
-            default:
+            }
+            case 'diagTR': {
+                console.log(`diagTR: ${winArray} won`);
+                break;
+            }
+            default: {
                 console.log('Error: No one won... Reset Game');
+            }
         }
     }
 
@@ -268,23 +274,24 @@ const screenController = (() => {
             const playerWinCheck = game.checkWin();
 
             if (playerWinCheck.check) {
-                // Display winner
+                updateScreen();
+
+                // Console log the player object who won
                 console.log(playerWinCheck);
+
+                // Display winner message
                 const winner = game.getPlayer();
                 console.log(`${winner.name} (${winner.symbol}) Won!`);
+
+                // Draw the line for the winning row
                 addLine(playerWinCheck);
-                // Use a function to draw a line with the given playerWinCheck object
-                // drawLine(playerWinCheck) // function that will read the condition (row, column, diag) and the desired array
-                // targets those buttons and draw a full size line through them
             }
 
             // If player did not win, switch active player
             else if (!winCheck) {
                 game.switchActivePlayer();
+                updateScreen();
             }
-
-            // Update screen after game logic
-            updateScreen();
         }
     }
 
