@@ -208,35 +208,45 @@ const screenController = (() => {
 
     function addLine(winObject) {
         const { condition, winArray } = winObject;
-        switch (condition) {
-            case 'row': {
-                // Get the HTML elements of the desired row and add a class list of 'row' to them
-                console.log(`Row: ${winArray} won`);
+        
 
-                const cells = document.querySelectorAll(
-                    `[data-row="${winArray}"]`
-                );
-                cells.forEach((e) => e.classList.add('row'));
-                console.log(cells);
-                // cells.forEach(node=>if ())
-                break;
-            }
-            case 'column': {
-                console.log(`column: ${winArray} won`);
-                break;
-            }
-            case 'diagTL': {
-                console.log(`diagTL: ${winArray} won`);
-                break;
-            }
-            case 'diagTR': {
-                console.log(`diagTR: ${winArray} won`);
-                break;
-            }
-            default: {
-                console.log('Error: No one won... Reset Game');
-            }
+        if (condition === 'row' || condition === 'column') {
+            console.log('wee')
+            const cells = document.querySelectorAll(`[data-${condition}="${winArray}"]`)
+            cells.forEach((e)=> e.classList.add(condition));
+            console.log(cells)
         }
+       
+        // switch (condition) {
+        //     case 'row': {
+        //         // Get the HTML elements of the desired row and add a class list of 'row' to them
+        //         console.log(`Row: ${winArray} won`);
+
+        //         const cells = document.querySelectorAll(
+        //             `[data-row="${winArray}"]`
+        //         );
+        //         cells.forEach((e) => e.classList.add('row'));
+        //         console.log(cells);
+        //         // cells.forEach(node=>if ())
+        //         break;
+        //     }
+        //     case 'column': {
+        //         console.log(`column: ${winArray} won`);
+
+        //         break;
+        //     }
+        //     case 'diagTL': {
+        //         console.log(`diagTL: ${winArray} won`);
+        //         break;
+        //     }
+        //     case 'diagTR': {
+        //         console.log(`diagTR: ${winArray} won`);
+        //         break;
+        //     }
+        //     default: {
+        //         console.log('Error: No one won... Reset Game');
+        //     }
+        // }
     }
 
     // Reset Button Handler
